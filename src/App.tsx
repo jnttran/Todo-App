@@ -143,15 +143,14 @@ const App: React.FC = () => {
   };
 
   const filteredTodos = todos
-  .filter((todo) => selectedTag === "All" || todo.tags?.includes(selectedTag))
-  .sort((a, b) => {
-    if (a.done !== b.done) return Number(a.done) - Number(b.done);
+    .filter((todo) => selectedTag === "All" || todo.tags?.includes(selectedTag))
+    .sort((a, b) => {
+      if (a.done !== b.done) return Number(a.done) - Number(b.done);
 
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
-    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-  });
-
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+    });
 
   return (
     <div className="bg-black h-screen text-white p-4 max-w-md mx-auto">
@@ -161,7 +160,8 @@ const App: React.FC = () => {
           e.preventDefault();
           addTodo();
         }}
-        className="flex mb-4">
+        className="flex mb-4"
+      >
         <input
           type="text"
           value={task}
@@ -191,7 +191,8 @@ const App: React.FC = () => {
         <select
           value={selectedTag}
           onChange={(e) => setSelectedTag(e.target.value)}
-          className="text-black px-2 py-1 rounded">
+          className="text-black px-2 py-1 rounded"
+        >
           <option value="All">All</option>
           {[...new Set(todos.flatMap((t) => t.tags || []))].map((tag) => (
             <option key={tag} value={tag}>
@@ -201,24 +202,29 @@ const App: React.FC = () => {
         </select>
       </div>
 
-      <ul ref={listRef} style={{ position: "relative" }}>
+      <ul ref={listRef} style={{ position: "relative", listStyleType: "none" }}>
         {filteredTodos.map((todo, index) => (
           <li
             key={todo.id}
             style={
-              draggedIndex === index ? { opacity: 0.5 } : { userSelect: "none" }
+              draggedIndex === index
+                ? { opacity: 0.5 }
+                : { userSelect: "none" }
             }
-            className="flex items-center justify-between p-2 mb-1 bg-gray-800 rounded">
+            className="flex items-center justify-between p-2 mb-1 bg-gray-800 rounded"
+          >
             <div
               onMouseDown={(e) => handleMouseDown(e, index)}
               style={{ cursor: "grab", paddingRight: 8 }}
-              title="Drag handle">
+              title="Drag handle"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="currentColor"
-                viewBox="0 0 16 16">
+                viewBox="0 0 16 16"
+              >
                 <path d="M2 4h12v1H2V4zm0 3h12v1H2V7zm0 3h12v1H2v-1z" />
               </svg>
             </div>
@@ -228,8 +234,7 @@ const App: React.FC = () => {
                 checked={todo.done}
                 onChange={() => Done(todo.id)}
               />
-              <span
-                className={`${todo.done ? "line-through text-gray-400" : ""}`}>
+              <span className={`${todo.done ? "line-through text-gray-400" : ""}`}>
                 {todo.task}
               </span>
               {todo.dueDate && (
@@ -243,13 +248,15 @@ const App: React.FC = () => {
                 e.stopPropagation();
                 removeTodo(todo.id);
               }}
-              className="ml-2 text-red-500 font-bold">
+              className="ml-2 text-red-500 font-bold"
+            >
               X
             </button>
             {todo.tags?.map((tag, i) => (
               <span
                 key={i}
-                className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full mr-1">
+                className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full mr-1"
+              >
                 {tag}
               </span>
             ))}
